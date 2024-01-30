@@ -1,5 +1,6 @@
 package ly.abit.shortener
 
+import ly.abit.shortener.domain.OriginalUrl
 import ly.abit.shortener.domain.ShortId
 import ly.abit.shortener.domain.ShortLink
 import org.springframework.stereotype.Service
@@ -12,7 +13,12 @@ class ShortenUrlService(
 ) {
     @Transactional
     fun shorten(url: String): ShortenUrlData {
-        val shortLink = ShortLink(url = url)
+        val found = repository.findByUrl(OriginalUrl(url))
+        if (found.isPresent) {
+            return ShortenUrlData.from(found.get())
+        }
+
+        val shortLink = ShortLink(url = OriginalUrl(url))
         val saved = repository.save(shortLink)
         return ShortenUrlData.from(saved)
     }
