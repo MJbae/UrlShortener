@@ -17,7 +17,7 @@ chmod +x build_and_run.sh && ./build_and_run.sh
 - **DB 포트**는 `3311`입니다. **ID**와 **PW**는 각각 `root`, `password`입니다.
 
 ### II. 테스트 결과
-<img width="579" alt="image" src="https://github.com/AB180-HR/240130-MJbae/assets/16694346/ccee7814-b2c8-4d38-b584-1faa5649d39b">
+<img width="561" alt="image" src="https://github.com/AB180-HR/240130-MJbae/assets/16694346/c1159306-bd66-4a74-a502-f34440441612">
 
 
 ### III. 시스템 디자인
