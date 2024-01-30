@@ -22,6 +22,14 @@ class ShortenUrlService(
 
         return ShortenUrlData.from(shortLink)
     }
+
+    fun findOriginalLink(id: String): String {
+        val shortLink = repository.findById(ShortId(id)).orElseThrow {
+            ClassNotFoundException("다음의 id로 short link 조회할 수 없습니다. id: $id")
+        }
+
+        return shortLink.url
+    }
 }
 
 data class ShortenUrlData(
