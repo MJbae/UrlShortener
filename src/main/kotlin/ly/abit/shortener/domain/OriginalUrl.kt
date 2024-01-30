@@ -12,7 +12,11 @@ data class OriginalUrl(
     }
 
     private fun validate(url: String) {
-        URI(url).toURL()
+        try {
+            URI(url).toURL()
+        } catch (e: Exception) {
+            throw IllegalArgumentException("url 형식이 올바르지 않습니다, url: $url", e)
+        }
     }
 
     override fun toString(): String {
