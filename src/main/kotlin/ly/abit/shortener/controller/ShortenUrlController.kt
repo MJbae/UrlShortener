@@ -1,5 +1,7 @@
-package ly.abit.shortener
+package ly.abit.shortener.controller
 
+import ly.abit.shortener.ShortenUrlData
+import ly.abit.shortener.ShortenUrlService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping

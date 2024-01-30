@@ -1,4 +1,4 @@
-package ly.abit.shortener
+package ly.abit.shortener.controller
 
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus

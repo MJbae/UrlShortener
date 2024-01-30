@@ -1,6 +1,7 @@
-package ly.abit.shortener
+package ly.abit.shortener.controller
 
 import jakarta.servlet.http.HttpServletResponse
+import ly.abit.shortener.ShortenUrlService
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable

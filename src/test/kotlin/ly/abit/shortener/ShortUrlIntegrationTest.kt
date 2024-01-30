@@ -2,6 +2,8 @@ package ly.abit.shortener
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
+import ly.abit.shortener.controller.ShortenUrlRequest
+import ly.abit.shortener.controller.ShortenUrlResponse
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
