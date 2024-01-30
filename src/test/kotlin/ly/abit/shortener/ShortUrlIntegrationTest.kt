@@ -39,6 +39,37 @@ class ShortUrlIntegrationTest(
         findResponse.data.url shouldBe originalUrl
     }
 
+    test("동일한 URL로 여러 번 단축 URL을 생성하면 항상 같은 shortId를 반환 받는다") {
+        val originalUrl = "https://example.com"
+        val fistResponse = testClient.post()
+            .uri("/short-links")
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(ShortenUrlRequest(originalUrl))
+            .exchange()
+            .expectStatus().is2xxSuccessful
+            .expectBody(ShortenUrlResponse::class.java)
+            .returnResult().responseBody!!
+        val secondResponse = testClient.post()
+            .uri("/short-links")
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(ShortenUrlRequest(originalUrl))
+            .exchange()
+            .expectStatus().is2xxSuccessful
+            .expectBody(ShortenUrlResponse::class.java)
+            .returnResult().responseBody!!
+        val thirdResponse = testClient.post()
+            .uri("/short-links")
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(ShortenUrlRequest(originalUrl))
+            .exchange()
+            .expectStatus().is2xxSuccessful
+            .expectBody(ShortenUrlResponse::class.java)
+            .returnResult().responseBody!!
+
+        fistResponse.data.shortId shouldBe secondResponse.data.shortId
+        secondResponse.data.shortId shouldBe thirdResponse.data.shortId
+    }
+
     test("URL 형식에 맞지 않는 URL의 경우 400 Bad Request 상태 코드를 반환한다") {
         val invalidUrl = "invalid-url"
         testClient.post()
