@@ -36,6 +36,7 @@ dependencies {
 	testImplementation("io.kotest:kotest-runner-junit5:$koTestVersion")
 	testImplementation("io.kotest:kotest-assertions-core:$koTestVersion")
 	testImplementation("io.kotest.extensions:kotest-extensions-spring:$koTestExtensionVersion")
+	testImplementation("org.springframework.boot:spring-boot-starter-webflux")
 }
 
 tasks.withType<KotlinCompile> {
