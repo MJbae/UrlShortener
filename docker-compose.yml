@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  database:
+    container_name: mysql_db
+    restart: always
+    image: mysql:5.7
+    platform: linux/amd64
+    ports:
+      - "3311:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: url_shortener
+      MYSQL_ROOT_PASSWORD: password
+      TZ: 'Asia/Seoul'
+    healthcheck:
+      test: ['CMD-SHELL', 'mysqladmin ping -h 127.0.0.1 -u root --password=$$MYSQL_ROOT_PASSWORD']
+      interval: 10s
+      timeout: 2s
+      retries: 100
+    networks:
+      - default-network
+
+  application:
+    container_name: url_shortener_app
+    restart: always
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "8080:55123"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db:3306/url_shortener?useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: password
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - default-network
+
+networks:
+  default-network:
+
+volumes:
+  mysql-data:

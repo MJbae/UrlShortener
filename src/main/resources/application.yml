@@ -1,0 +1,26 @@
+server:
+  port: 55123
+  shutdown: graceful
+  compression:
+    enabled: true
+
+spring:
+  application:
+    name: URL Shortener
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3311/url_shortener?useUnicode=true&serverTimezone=Asia/Seoul
+    username: root
+    password: password
+  jpa:
+    show-sql: false
+    generate-ddl: false
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+
+logging:
+  level:
+    ROOT: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql: TRACE
