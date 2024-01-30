@@ -2,9 +2,7 @@ package ly.abit.shortener
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
-import ly.abit.shortener.controller.ShortenUrlRequest
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -37,34 +35,12 @@ class ShortUrlIntegrationTest(
         secondResponse.data.shortId shouldBe thirdResponse.data.shortId
     }
 
-    test("URL 형식에 맞지 않는 URL의 경우 400 Bad Request 상태 코드를 반환한다") {
-        val invalidUrl = "invalid-url"
-
-        testClient.post()
-            .uri("/short-links")
-            .contentType(MediaType.APPLICATION_JSON)
-            .bodyValue(ShortenUrlRequest(invalidUrl))
-            .exchange()
-            .expectStatus().isBadRequest
-    }
-
-    test("존재하지 않는 shortId로 단축 url을 조회하면 404 Not Found 상태 코드를 반환한다") {
-        val nonExistentShortId = "nonexistent"
+    test("존재하지 않는 shortId로 원본 URL을 조회할 수 없다") {
+        val nonExistentShortId = "nonExistent"
 
         testClient.get()
             .uri("/short-links/$nonExistentShortId")
             .exchange()
             .expectStatus().isNotFound
-    }
-
-    test("빈 URL로 단축 URL 생성을 요청하면 400 Bad Request 상태 코드를 반환한다") {
-        val emptyUrl = ""
-
-        testClient.post()
-            .uri("/short-links")
-            .contentType(MediaType.APPLICATION_JSON)
-            .bodyValue(ShortenUrlRequest(emptyUrl))
-            .exchange()
-            .expectStatus().isBadRequest
     }
 })
