@@ -1,23 +1,26 @@
 package ly.abit.shortener.domain
 
 import jakarta.persistence.*
-import java.net.URI
 import java.time.LocalDateTime
 
 @Entity
-class ShortLink(url: String) {
-
-    val url: String = validateUrl(url)
-
+class ShortLink(
+    @Embedded
+    @AttributeOverride(name = "url", column = Column(name = "original_url", unique = true))
+    private val url: OriginalUrl
+) {
     @Id
     @Embedded
-    @AttributeOverride(name = "id", column = Column(name = "shortId", unique = true))
-    val shortId: ShortId = IdGenerator().generateUniqueId()
+    @AttributeOverride(name = "id", column = Column(name = "short_id", unique = true))
+    private val shortId: ShortId = IdGenerator().generateUniqueId()
 
     val createdAt: LocalDateTime = LocalDateTime.now()
 
-    private fun validateUrl(url: String): String {
-        URI(url).toURL()
-        return url
+    fun originalUrl(): String{
+        return url.toString()
+    }
+
+    fun id(): String{
+        return shortId.toString()
     }
 }

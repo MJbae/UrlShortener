@@ -32,7 +32,7 @@ class ShortenUrlService(
             ClassNotFoundException("다음의 id로 short link 조회할 수 없습니다. id: $id")
         }
 
-        return shortLink.url
+        return shortLink.originalUrl()
     }
 }
 
@@ -43,7 +43,7 @@ data class ShortenUrlData(
 ) {
     companion object {
         fun from(shortLink: ShortLink): ShortenUrlData {
-            return ShortenUrlData(shortLink.shortId.toString(), shortLink.url, shortLink.createdAt)
+            return ShortenUrlData(shortLink.id(), shortLink.originalUrl(), shortLink.createdAt)
         }
     }
 }
