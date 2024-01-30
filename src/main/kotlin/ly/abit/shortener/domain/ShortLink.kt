@@ -11,7 +11,7 @@ class ShortLink(
 ) {
     @Id
     @Embedded
-    @AttributeOverride(name = "id", column = Column(name = "short_id", unique = true))
+    @AttributeOverride(name = "id", column = Column(name = "short_id", unique = true, length = 50))
     private val shortId: ShortId = IdGenerator().generateUniqueId()
 
     @Version
