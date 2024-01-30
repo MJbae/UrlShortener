@@ -14,6 +14,9 @@ class ShortLink(
     @AttributeOverride(name = "id", column = Column(name = "short_id", unique = true))
     private val shortId: ShortId = IdGenerator().generateUniqueId()
 
+    @Version
+    private var version: Int = 0
+
     val createdAt: LocalDateTime = LocalDateTime.now()
 
     fun originalUrl(): String{

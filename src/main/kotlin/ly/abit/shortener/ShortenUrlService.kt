@@ -3,6 +3,9 @@ package ly.abit.shortener
 import ly.abit.shortener.domain.OriginalUrl
 import ly.abit.shortener.domain.ShortId
 import ly.abit.shortener.domain.ShortLink
+import org.springframework.dao.DataIntegrityViolationException
+import org.springframework.orm.ObjectOptimisticLockingFailureException
+import org.springframework.retry.annotation.Retryable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
@@ -12,6 +15,7 @@ class ShortenUrlService(
     private val repository: ShortenUrlRepository
 ) {
     @Transactional
+    @Retryable(value = [ObjectOptimisticLockingFailureException::class, DataIntegrityViolationException::class])
     fun shorten(url: String): ShortenUrlData {
         val found = repository.findByUrl(OriginalUrl(url))
         if (found.isPresent) {
