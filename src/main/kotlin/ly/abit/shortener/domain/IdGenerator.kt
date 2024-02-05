@@ -4,21 +4,35 @@ import de.mkammerer.snowflakeid.SnowflakeIdGenerator
 import java.util.*
 
 
+import java.math.BigInteger
+
 class IdGenerator {
     private val generatorId = 0
     private val generator: SnowflakeIdGenerator = SnowflakeIdGenerator.createDefault(generatorId)
-    fun snowflake(): Long {
-        return generator.next()
-    }
+    private val base62Chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 
     fun generateUniqueId(): ShortId {
-        val id = UUID.randomUUID().toString()
-            .replace("-", "")
-            .substring(startIndex = 2, endIndex = 12)
+        val snowflakeId = generator.next()
+        val base62Id = encodeBase62(snowflakeId)
 
-        return ShortId(id)
+        return ShortId(base62Id)
+    }
+
+    private fun encodeBase62(number: Long): String {
+        var num = BigInteger.valueOf(number)
+        val base = BigInteger.valueOf(62)
+        val encoded = StringBuilder()
+
+        while (num > BigInteger.ZERO) {
+            val remainder = num.mod(base).toInt()
+            encoded.insert(0, base62Chars[remainder])
+            num = num.divide(base)
+        }
+
+        return encoded.toString()
     }
 }
+
 
 class UuidGenerator {
     fun snowflake(): Long {
